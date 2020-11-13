@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Card,
@@ -6,14 +7,20 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import React from "react";
-import { connect } from "react-redux";
+import SwiperCore, { Navigation } from "swiper";
+import { Swiper as SwiperContainer, SwiperSlide } from "swiper/react";
+
+import "swiper/swiper.scss";
+import "swiper/components/navigation/navigation.scss";
+
 import useStyles from "./styles";
 
-const SwiperItem = ({ name, imageUrl }) => {
+SwiperCore.use([Navigation]);
+
+const SwiperItem = ({ _id, name, imageUrl, changeCategory }) => {
   const classes = useStyles();
   return (
-    <Card className={classes.Card}>
+    <Card className={classes.Card} onClick={() => changeCategory(_id, name)}>
       <Typography variant="body1" className={classes.Title}>
         {name}
       </Typography>
@@ -22,59 +29,61 @@ const SwiperItem = ({ name, imageUrl }) => {
   );
 };
 
-export const Swiper = ({ categories }) => {
+export const Swiper = ({ categories, changeCategory }) => {
   const classes = useStyles();
+
+  if (!categories) {
+    return <h2>Loading...</h2>;
+  }
+
+  let list = [
+    {
+      _id: "all",
+      name: "All Products",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/thumbnails/000/430/087/original/Healthy_food_vector-01.jpg",
+    },
+    ...categories,
+  ];
 
   return (
     <Box component={Container} className={classes.root}>
-      <Grid container className={classes.Container} spacing={2}>
-        {categories &&
-          categories.map((item, key) => (
-            <Grid key={key} item xs={4} md={2} zeroMinWidth>
-              <SwiperItem {...item} />
-            </Grid>
-          ))}
-      </Grid>
+      <SwiperContainer
+        spaceBetween={50}
+        slidesPerView={6}
+        navigation
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
+        {list.map((item, key) => (
+          <SwiperSlide>
+            <SwiperItem {...item} changeCategory={changeCategory} />
+          </SwiperSlide>
+        ))}
+      </SwiperContainer>
     </Box>
   );
 };
 
-const mapState = (state) => ({
-  categories: state.shop.categories,
-});
+export default Swiper;
 
-export default connect(mapState)(Swiper);
-
-
-// const list = [
-//   {
-//     name: "Food",
-//     image:
-//       "https://blogs.biomedcentral.com/on-medicine/wp-content/uploads/sites/6/2019/09/iStock-1131794876.t5d482e40.m800.xtDADj9SvTVFjzuNeGuNUUGY4tm5d6UGU5tkKM0s3iPk-620x342.jpg",
-//   },
-//   {
-//     name: "Drink",
-//     image:
-//       "https://img.delicious.com.au/CKMUcpx-/w1200/del/2015/11/summer-cocktails-24374-3.jpg",
-//   },
-//   {
-//     name: "Drink",
-//     image:
-//       "https://img.delicious.com.au/CKMUcpx-/w1200/del/2015/11/summer-cocktails-24374-3.jpg",
-//   },
-//   {
-//     name: "Drink",
-//     image:
-//       "https://img.delicious.com.au/CKMUcpx-/w1200/del/2015/11/summer-cocktails-24374-3.jpg",
-//   },
-//   {
-//     name: "Drink",
-//     image:
-//       "https://img.delicious.com.au/CKMUcpx-/w1200/del/2015/11/summer-cocktails-24374-3.jpg",
-//   },
-//   {
-//     name: "Drink",
-//     image:
-//       "https://img.delicious.com.au/CKMUcpx-/w1200/del/2015/11/summer-cocktails-24374-3.jpg",
-//   },
-// ];
+// const Old = () => {
+//   return (
+//     <Grid container className={classes.Container} spacing={2}>
+//       {categories &&
+//         [
+//           {
+//             _id: "all",
+//             name: "All Products",
+//             imageUrl:
+//               "https://static.vecteezy.com/system/resources/thumbnails/000/430/087/original/Healthy_food_vector-01.jpg",
+//           },
+//           ...categories,
+//         ].map((item, key) => (
+//           <Grid key={key} item xs={4} md={2} zeroMinWidth>
+//             <SwiperItem {...item} changeCategory={changeCategory} />
+//           </Grid>
+//         ))}
+//     </Grid>
+//   );
+// };

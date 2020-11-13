@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     boxSizing: "border-box",
     display: "flex",
     // height: "100%",
-    height: 140,
+    height: 110,
     borderRadius: theme.spacing(1),
     "&:hover": {
       boxShadow: "0 0 0 3px #00b14f",

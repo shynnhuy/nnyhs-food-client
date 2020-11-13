@@ -1,5 +1,4 @@
 import Api from "Api";
-// import { tokenConfig } from "redux/admin/admin.actions";
 import { enqueueSnackbar } from "redux/snackbar/snackbar.actions";
 
 import {
@@ -20,8 +19,6 @@ import {
 import { loadShop } from "redux/shop/shop.actions";
 
 const checkAdmin = (roles = [], admin, dispatch) => {
-  // console.log("Check Admin");
-  // console.log(roles, admin);
   if (roles.map((role) => role._id).includes(admin)) {
     dispatch({
       type: CHECK_ADMIN,
@@ -30,11 +27,8 @@ const checkAdmin = (roles = [], admin, dispatch) => {
   }
 };
 
-// Check token & load user
 export const loadUser = () => (dispatch, getState) => {
-  // User loading
   dispatch({ type: USER_LOADING });
-  // Api.get("/auth/userData", tokenConfig(dispatch, getState))
   Api.get("/auth/userData")
     .then((res) => {
       dispatch(
@@ -44,10 +38,6 @@ export const loadUser = () => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data,
       });
-      // dispatch({
-      //   type: SET_REQUEST,
-      //   payload: res.data.user.isRequested,
-      // });
       if (res.data.user.isRequestShop) {
         dispatch(loadShop(res.data.user.shop));
       }
@@ -108,7 +98,9 @@ export const login = ({ email, password }) => (dispatch, getState) => {
         type: LOGIN_SUCCESS,
         payload: rest,
       });
-
+      if (rest.user.isRequestShop) {
+        dispatch(loadShop(res.data.user.shop));
+      }
       if (
         checkAdmin(
           rest.user.roles,

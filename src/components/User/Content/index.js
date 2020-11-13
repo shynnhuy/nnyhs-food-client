@@ -1,17 +1,34 @@
 import React from "react";
-import { Box, Container, Grid, Typography } from "@material-ui/core";
+import { Box, Container, Grid } from "@material-ui/core";
 
-import useStyles from "./styles";
+import useStyles, {
+  StyledCard,
+  StyledTypography,
+  StyledCardImage,
+  StyledCardTitle
+} from "./styles";
 
-export const Content = () => {
+export const Content = ({ title, products }) => {
   const classes = useStyles();
   return (
-    <Box className={classes.root}>
-      <Grid container component={Container} maxWidth="lg">
-        <Grid item xs={12}>
-          <Typography variant="h5">Hot Products</Typography>
-        </Grid>
+    <Box component={Container} className={classes.root}>
+      <StyledTypography variant="h5">{title}</StyledTypography>
+      <Grid container spacing={3}>
+        {products?.map((product) => (
+          <Grid item xs={3} key={product._id}>
+            <Item {...product} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
+  );
+};
+
+const Item = (props) => {
+  return (
+    <StyledCard>
+      <StyledCardImage image={props.imageUrl} />
+      <StyledCardTitle>{props.name}</StyledCardTitle>
+    </StyledCard>
   );
 };

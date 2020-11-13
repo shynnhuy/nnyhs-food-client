@@ -2,7 +2,7 @@ import { LOADED_CATEGORY, LOADED_SHOP } from "./shop.types";
 
 const defaultState = {
   details: {},
-  categories: [],
+  categories: []
 };
 
 export default (state = defaultState, action) => {
