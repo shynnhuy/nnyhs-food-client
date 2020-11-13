@@ -1,0 +1,2 @@
+export const LOADED_CATEGORY = "LOADED_CATEGORY";
+export const LOADED_SHOP = "LOADED_SHOP";

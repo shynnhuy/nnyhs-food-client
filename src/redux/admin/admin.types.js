@@ -1,0 +1,5 @@
+export const LOADED_USERS = "LOADED_USERS";
+export const LOADED_CATEGORY = "LOADED_CATEGORY";
+export const LOADED_SHOPS = "LOADED_SHOPS";
+export const ADD_CATEGORY = "ADD_CATEGORY";
+export const UPDATED_SHOP = "UPDATED_SHOP";
