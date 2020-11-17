@@ -4,6 +4,7 @@ import authReducer from "./auth/auth.reducer";
 import snackbarReducer from "./snackbar/snackbar.reducer";
 import shopReducer from "./shop/shop.reducer";
 import productReducer from "./product/product.reducer";
+import cartReducer from "./cart/cart.reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   snack: snackbarReducer,
   shop: shopReducer,
   product: productReducer,
+  cart: cartReducer,
 });

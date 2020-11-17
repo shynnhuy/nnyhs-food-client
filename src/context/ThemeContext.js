@@ -3,7 +3,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { deepPurple, lightBlue, orange, pink } from "@material-ui/core/colors";
 import SocketProvider from "./SocketContext";
 import "assets/scss/fonts/_index.scss";
-// import "typeface-roboto";
+import "typeface-roboto";
 import { ModalProvider } from "./ModalContext";
 
 const ThemeContext = createContext(null);

@@ -31,9 +31,11 @@ const FormikSelect = ({
   variant = "outlined",
   label,
   required = false,
+  className = "",
+  onChange = () => {},
 }) => {
   return (
-    <div className="FormikSelect">
+    <div className={className}>
       <Field
         name={name}
         as={TextField}
@@ -43,6 +45,7 @@ const FormikSelect = ({
         variant={variant}
         helperText={<ErrorMessage name={name} />}
         required={required}
+        onChange={onChange}
       >
         {items.map((item, idx) => (
           <MenuItem key={idx} value={item.value}>

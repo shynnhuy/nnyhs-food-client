@@ -11,7 +11,8 @@ import "assets/scss/App.scss";
 // import { ThemeProvider } from "@material-ui/core";
 
 import { Provider } from "react-redux";
-import store from "redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "redux/store";
 import StableDispatchProvider from "redux/stableDispatch";
 import {
   getRoles,
@@ -139,32 +140,39 @@ const Root = () => {
   return (
     // <RingLoader css={override} size={150} color={"red"} loading={true} />
     <Provider store={store}>
-      <StableDispatchProvider>
-        <Suspense
-          fallback={
-            <RingLoader
-              css={override}
-              size={150}
-              color={"red"}
-              loading={true}
-            />
-          }
-        >
-          <BrowserRouter history={hist}>
-            <SThemeProvider>
-              <SnackbarProvider
-                maxSnack={3}
-                preventDuplicate
-                autoHideDuration={3000}
-                TransitionComponent={Slide}
-              >
-                <App />
-                <Notifier />
-              </SnackbarProvider>
-            </SThemeProvider>
-          </BrowserRouter>
-        </Suspense>
-      </StableDispatchProvider>
+      <PersistGate
+        loading={
+          <RingLoader css={override} size={150} color={"red"} loading={true} />
+        }
+        persistor={persistor}
+      >
+        <StableDispatchProvider>
+          <Suspense
+            fallback={
+              <RingLoader
+                css={override}
+                size={150}
+                color={"red"}
+                loading={true}
+              />
+            }
+          >
+            <BrowserRouter history={hist}>
+              <SThemeProvider>
+                <SnackbarProvider
+                  maxSnack={3}
+                  preventDuplicate
+                  autoHideDuration={3000}
+                  TransitionComponent={Slide}
+                >
+                  <App />
+                  <Notifier />
+                </SnackbarProvider>
+              </SThemeProvider>
+            </BrowserRouter>
+          </Suspense>
+        </StableDispatchProvider>
+      </PersistGate>
     </Provider>
   );
 };

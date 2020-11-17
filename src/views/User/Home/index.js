@@ -4,19 +4,52 @@ import { Swiper } from "components/User";
 import { Content } from "components/User/Content";
 import { connect } from "react-redux";
 
-import { getProducts } from "redux/product/product.actions";
+import {
+  getProducts,
+  sortByPrice,
+  sortByAlphabet,
+} from "redux/product/product.actions";
 
-export const Home = ({ shop, product, getProducts }) => {
+export const Home = ({
+  shop,
+  products,
+  getProducts,
+  sortByPrice,
+  sortByAlphabet,
+}) => {
   const [category, setCategory] = useState("all");
   const [categoryName, setCategoryName] = useState("All Products");
+  const [filter, setFilter] = useState("");
 
-  const memoizedCallback = useCallback(() => {
+  const memoizedGetProducts = useCallback(() => {
     getProducts(category);
   }, [getProducts, category]);
 
   useEffect(() => {
-    memoizedCallback();
-  }, [memoizedCallback]);
+    memoizedGetProducts();
+  }, [memoizedGetProducts]);
+
+  // const sortProducts = () => {
+  //   let direction = filter.endsWith("asc") ? "asc" : "desc";
+  //   if (filter.startsWith("price")) {
+  //     sortByPrice({ direction });
+  //   } else {
+  //     sortByAlphabet({ direction });
+  //   }
+  // };
+
+  const memoizedSortProducts = useCallback(() => {
+    let direction = filter.endsWith("asc") ? "asc" : "desc";
+    if (filter.startsWith("price")) {
+      sortByPrice({ direction });
+    } else {
+      sortByAlphabet({ direction });
+    }
+  }, [filter, sortByPrice, sortByAlphabet]);
+
+  useEffect(() => {
+    memoizedSortProducts();
+  }, [memoizedSortProducts]);
 
   const changeCategory = (id, name) => {
     setCategory(id);
@@ -25,17 +58,25 @@ export const Home = ({ shop, product, getProducts }) => {
 
   return (
     <React.Fragment>
-      <Box style={{ padding: "0 0 32px 0" }}>
+      {/* <Box style={{ padding: "0 0 32px 0" }}> */}
+      <Box>
         <Swiper categories={shop.categories} changeCategory={changeCategory} />
       </Box>
-      <Content title={categoryName} products={product.products} />
+      <Content
+        title={categoryName}
+        products={products}
+        filter={filter}
+        setFilter={setFilter}
+      />
     </React.Fragment>
   );
 };
 
 const mapState = (state) => ({
   shop: state.shop,
-  product: state.product,
+  products: state.product.filteredProducts,
 });
 
-export default connect(mapState, { getProducts })(Home);
+export default connect(mapState, { getProducts, sortByPrice, sortByAlphabet })(
+  Home
+);

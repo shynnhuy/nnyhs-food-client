@@ -13,6 +13,7 @@ const Landing = lazy(() => import("views/User/Landing"));
 const Profile = lazy(() => import("views/User/Profile"));
 const Home = lazy(() => import("views/User/Home"));
 const Shop = lazy(() => import("views/User/Shop"));
+const Cart = lazy(() => import("views/User/Cart"));
 
 // Admin
 const Dashboard = lazy(() => import("views/Admin/Dashboard"));
@@ -32,6 +33,7 @@ const App = () => {
       <UserRoute path="/home" component={Home} />
       <UserRoute path="/profile" auth component={Profile} />
       <UserRoute path="/shop" auth component={Shop} />
+      <UserRoute path="/cart" component={Cart} />
       <AuthRoute path="/login" component={Login} />
       <AuthRoute path="/register" component={Register} />
       <Redirect path="/admin" exact to="/admin/dashboard" />

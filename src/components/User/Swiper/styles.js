@@ -3,15 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   root: {
     position: "relative",
-    // padding: theme.spacing(0, 4),
-  },
-  Container: {
-    display: "flex",
+    // height: 140,
     // padding: theme.spacing(2),
-    // overflow: "hidden",
-    // "& > *": {
-    //   flex: 1,
-    // },
   },
   Card: {
     position: "relative",

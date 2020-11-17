@@ -74,11 +74,13 @@ const Shop = ({ shop }) => {
 
 const ShopNav = ({ selected, setSelected, setCategory, categories }) => {
   const [open, setOpen] = useState(false);
+  const [toggleCategory, settoggleCategory] = useState(0);
   const classes = useStyles();
   const handleToggleProducts = () => setOpen(!open);
-  const changeCategory = (code) => {
+  const changeCategory = (code, key) => {
     setCategory(code);
     setSelected(2);
+    settoggleCategory(key);
   };
   return (
     <List component={Paper}>
@@ -103,21 +105,22 @@ const ShopNav = ({ selected, setSelected, setCategory, categories }) => {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {categories.map((category) => (
-          <List component="div" disablePadding key={category._id}>
+        <List component="div" disablePadding>
+          {categories.map((category, key) => (
             <ListItem
               button
-              selected={selected === 2}
+              selected={toggleCategory === key}
               className={classes.nested}
-              onClick={() => changeCategory(category._id)}
+              onClick={() => changeCategory(category._id, key)}
+              key={category._id}
             >
               <ListItemAvatar>
                 <Avatar src={category.imageUrl} alt={category.code} />
               </ListItemAvatar>
               <ListItemText primary={category.name} />
             </ListItem>
-          </List>
-        ))}
+          ))}
+        </List>
       </Collapse>
     </List>
   );
