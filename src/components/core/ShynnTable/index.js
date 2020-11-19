@@ -8,7 +8,6 @@ import {
 import SearchBar from "material-ui-search-bar";
 
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -80,7 +79,7 @@ const ShynnTable = ({
   }, 200);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table stickyHeader={stickyHeader} {...getTableProps()}>
         <TableHead>
           {filter && (

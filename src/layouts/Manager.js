@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Box, CssBaseline, makeStyles } from "@material-ui/core";
+import { Box, CssBaseline, makeStyles, Paper } from "@material-ui/core";
 import { Redirect, Route } from "react-router-dom";
 import { Navbar, Sidebar, Footer } from "components/Manager";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
-const ManagerRoute = ({ auth, component: Component, ...rest }) => {
-  if (!auth.isAuthenticated && !auth.isAdmin) {
+import "react-perfect-scrollbar/dist/css/styles.css";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { createStructuredSelector } from "reselect";
+import {
+  selectIsAuthenticated,
+  selectIsAdmin,
+} from "redux/auth/auth.selectors";
+
+const ManagerRoute = ({ isAuth, isAdmin, component: Component, ...rest }) => {
+  if (!isAuth && !isAdmin) {
     return <Redirect to="/" />;
   }
   return (
@@ -38,17 +47,22 @@ const ManagerLayout = ({ children }) => {
       <Box display="flex" className={classes.layout}>
         <Navbar open={open} handleDrawerOpen={handleDrawerOpen} />
         <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
-        <main className={classes.wrapper}>
-          <div className={classes.toolbar} />
-          {children}
+        <StyledWrapper>
+          <PerfectScrollbar>
+            <main className={classes.main}>
+              <div className={classes.toolbar} />
+              <StyledPaper elevation={5}>{children}</StyledPaper>
+            </main>
+          </PerfectScrollbar>
           <Footer />
-        </main>
+        </StyledWrapper>
       </Box>
     </React.Fragment>
   );
 };
-const mapState = (state) => ({
-  auth: state.auth,
+const mapState = createStructuredSelector({
+  isAuth: selectIsAuthenticated,
+  isAdmin: selectIsAdmin,
 });
 
 export default connect(mapState)(ManagerRoute);
@@ -59,19 +73,30 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     overflow: "hidden",
   },
-  wrapper: {
+  main: {
     padding: theme.spacing(0, 3, 3, 3),
     // paddingBottom: "0px !important",
-    flexGrow: 1,
+    // flexGrow: 1,
     maxHeight: "100%",
-    overflow: "scroll",
+    overflowY: "scroll",
   },
   toolbar: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
+    marginBottom: theme.spacing(2),
     ...theme.mixins.toolbar,
   },
 }));
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+`;
+
+const StyledPaper = styled(Paper)`
+  padding: 12px;
+`;

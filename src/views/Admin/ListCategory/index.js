@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   Dialog,
   DialogActions,
   DialogContent,
@@ -62,9 +61,6 @@ export const ListCategory = () => {
       </Grid>
       <Grid item xs={12}>
         <Card>
-          <CardHeader color="primary">
-            <h4>List All Categories</h4>
-          </CardHeader>
           <CardContent>
             <ShynnTable
               sorted

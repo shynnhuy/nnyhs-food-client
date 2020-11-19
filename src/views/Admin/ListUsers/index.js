@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
+import { Card, CardContent, Grid } from "@material-ui/core";
 import ShynnTable from "components/core/ShynnTable";
 import { connect } from "react-redux";
 
@@ -30,9 +30,6 @@ export const ListUsers = ({ admin }) => {
     <Grid container>
       <Grid item xs={12}>
         <Card>
-          <CardHeader>
-            <h4>List All Users</h4>
-          </CardHeader>
           <CardContent>
             <ShynnTable
               sorted

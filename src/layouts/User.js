@@ -3,7 +3,8 @@ import React from "react";
 import { Box, CssBaseline } from "@material-ui/core";
 import { Redirect, Route } from "react-router-dom";
 import { Navbar } from "components/User";
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { selectIsAuthenticated } from "redux/auth/auth.selectors";
 
 function UserLayout({ children }) {
   return (
@@ -15,9 +16,8 @@ function UserLayout({ children }) {
   );
 }
 
-const UserRoute = ({ component: Component, ...rest }) => {
-  const auth = useSelector((state) => state.auth);
-  if (rest.auth && !auth.isAuthenticated) {
+const UserRoute = ({ isAuth, component: Component, ...rest }) => {
+  if (rest.auth && !isAuth) {
     return <Redirect to="/login" />;
   }
   return (
@@ -32,4 +32,8 @@ const UserRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default UserRoute;
+const mapState = (state) => ({
+  isAuth: selectIsAuthenticated(state),
+});
+
+export default connect(mapState)(UserRoute);

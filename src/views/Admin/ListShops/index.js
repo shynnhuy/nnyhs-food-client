@@ -8,7 +8,6 @@ import ShynnTable from "components/core/ShynnTable";
 import {
   Card,
   CardContent,
-  CardHeader,
   Grid,
   IconButton,
 } from "@material-ui/core";
@@ -32,9 +31,6 @@ export const ListShops = () => {
     <Grid container>
       <Grid item xs={12}>
         <Card>
-          <CardHeader>
-            <h4>List All Shop Requests</h4>
-          </CardHeader>
           <CardContent>
             <ShynnTable
               columns={[

@@ -4,6 +4,7 @@ import { Grid, CssBaseline, Fab } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
 import useStyles from "views/Auth/styles";
 import { connect } from "react-redux";
+import { selectIsAuthenticated } from "redux/auth/auth.selectors";
 
 const AuthLayout = ({ children }) => {
   const classes = useStyles();
@@ -32,9 +33,8 @@ const AuthLayout = ({ children }) => {
   );
 };
 
-const AuthRoute = ({ auth, component: Component, ...rest }) => {
-  // const auth = useSelector((state) => state.auth);
-  if (auth.isAuthenticated) {
+const AuthRoute = ({ isAuth, component: Component, ...rest }) => {
+  if (isAuth) {
     return <Redirect to="/" />;
   }
   return (
@@ -50,7 +50,7 @@ const AuthRoute = ({ auth, component: Component, ...rest }) => {
 };
 
 const mapState = (state) => ({
-  auth: state.auth,
+  isAuth: selectIsAuthenticated(state),
 });
 
 export default connect(mapState)(AuthRoute);
