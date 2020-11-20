@@ -11,3 +11,8 @@ export const selectShopsList = createSelector(
   selectAdmin,
   (admin) => admin.shops
 );
+
+export const selectCategoriesList = createSelector(
+  selectAdmin,
+  (admin) => admin.categories
+);

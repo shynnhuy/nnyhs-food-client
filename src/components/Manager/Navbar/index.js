@@ -17,8 +17,9 @@ import SearchBar from "material-ui-search-bar";
 import { useThemeContext } from "context/ThemeContext";
 import SIcon from "components/core/SIcon";
 import useStyles from "./styles";
+import { connect } from "react-redux";
 
-export const Navbar = ({ open, handleDrawerOpen }) => {
+export const Navbar = ({ open, handleDrawerOpen, user }) => {
   const classes = useStyles();
 
   const { darkState, handleThemeChange } = useThemeContext();
@@ -82,11 +83,17 @@ export const Navbar = ({ open, handleDrawerOpen }) => {
           <IconButton>
             <AlarmTwoTone fontSize="inherit" />
           </IconButton>
-          <Avatar src="/assets/github/react.svg" />
+          <IconButton>
+            <Avatar src="/assets/github/react.svg" />
+          </IconButton>
         </Box>
       </Toolbar>
     </AppBar>
   );
 };
 
-export default Navbar;
+const mapState = state => ({
+  user: state.auth.user
+})
+
+export default connect(mapState)(Navbar);

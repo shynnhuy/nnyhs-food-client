@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { deepPurple, lightBlue, orange, pink } from "@material-ui/core/colors";
 import SocketProvider from "./SocketContext";
 import "assets/scss/fonts/_index.scss";
@@ -73,9 +74,11 @@ const SThemeProvider = ({ children }) => {
   return (
     <ThemeContext.Provider value={{ darkTheme, darkState, handleThemeChange }}>
       <ThemeProvider theme={darkTheme}>
-        <SocketProvider>
-          <ModalProvider>{children}</ModalProvider>
-        </SocketProvider>
+        <StyledThemeProvider theme={darkTheme}>
+          <SocketProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </SocketProvider>
+        </StyledThemeProvider>
       </ThemeProvider>
     </ThemeContext.Provider>
   );

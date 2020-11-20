@@ -26,7 +26,7 @@ export default (state = inititalState, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter(
-          (cartItem) => cartItem.id !== action.payload.id
+          (cartItem) => cartItem._id !== action.payload._id
         ),
       };
     case CLEAR_CART:
