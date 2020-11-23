@@ -7,7 +7,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableRow,
 } from "@material-ui/core";
 import {
@@ -17,7 +16,7 @@ import {
   StyledTableTextBold,
 } from "./styles";
 
-const CartList = ({ items, count, total, changeQuantity }) => {
+const CartList = ({ items, count, changeQuantity }) => {
   return (
     <TableContainer>
       <Table>
@@ -40,20 +39,6 @@ const CartList = ({ items, count, total, changeQuantity }) => {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <Hidden only={["xs", "sm", "md"]}>
-              <TableCell colSpan={6} align="right">
-                Subtotal: <StyledTableTextBold>{total}đ</StyledTableTextBold>
-              </TableCell>
-            </Hidden>
-            <Hidden only={["lg", "xl"]}>
-              <TableCell colSpan={5} align="right">
-                Subtotal: <StyledTableTextBold>{total}đ</StyledTableTextBold>
-              </TableCell>
-            </Hidden>
-          </TableRow>
-        </TableFooter>
       </Table>
     </TableContainer>
   );

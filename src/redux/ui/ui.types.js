@@ -1,1 +1,0 @@
-export const SET_NAVBAR_HEIGHT = "SET_NAVBAR_HEIGHT";

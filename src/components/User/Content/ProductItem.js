@@ -14,9 +14,14 @@ import { AddShoppingCartTwoTone, StarBorderTwoTone } from "@material-ui/icons";
 import { connect } from "react-redux";
 import { addItem } from "redux/cart/cart.actions";
 import { selectSingleCartItemQuantity } from "redux/cart/cart.selectors";
+import { useHistory } from "react-router-dom";
 
 const ProductItem = ({ product, addItem, inCart }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const toProductDetails = () => {
+    history.push("/products/" + product._id);
+  };
   return (
     <StyledBadge
       classes={{ badge: classes.badge }}
@@ -24,10 +29,12 @@ const ProductItem = ({ product, addItem, inCart }) => {
       badgeContent={inCart?.quantity}
     >
       <StyledCard>
-        <StyledCardImage image={product.imageUrl} />
-        <StyledCardTitle>{product.name}</StyledCardTitle>
-        <StyledCardDescription>{product.shop.address}</StyledCardDescription>
-        <span>{product.price}$</span>
+        <div onClick={toProductDetails}>
+          <StyledCardImage image={product.imageUrl} />
+          <StyledCardTitle>{product.name}</StyledCardTitle>
+          <StyledCardDescription>{product.shop.address}</StyledCardDescription>
+          <span>{product.price}$</span>
+        </div>
         <StyledCardFooter>
           <Rating
             name={`${product.code}-${product._id}`}

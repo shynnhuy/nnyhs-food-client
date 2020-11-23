@@ -1,55 +1,67 @@
-import { CardElement, useStripe, useElements, ElementsConsumer } from "@stripe/react-stripe-js";
+import React, { useState, useEffect } from "react";
+import {
+  CardElement,
+  useStripe,
+  useElements
+} from "@stripe/react-stripe-js";
+import { Form, Formik } from "formik";
 
 const CheckoutForm = () => {
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = useState('');
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = async (event) => {
-    // Block native form submission.
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return;
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    const createPaymentIntent = async () => {
+      try {
+        const res = await api();
+        
+        setClientSecret(data.clientSecret);
+      } catch (error) {
+        
+      }
     }
+  }, []);
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
-    const cardElement = elements.getElement(CardElement);
+  const handleChange = async (event) => {
+    // Listen for changes in the CardElement
+    // and display any errors as the customer types their card details
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : "");
+  };
 
-    // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
+  const handleSubmit = async ev => {
+    ev.preventDefault();
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement)
+      }
     });
-
-    if (error) {
-      console.log("[error]", error);
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Pay
-      </button>
-    </form>
-  );
-};
-
-const InjectedCheckoutForm = () => {
-  return (
-    <ElementsConsumer>
-      {({ elements, stripe }) => (
-        <CheckoutForm elements={elements} stripe={stripe} />
+    <Formik>
+      {props => (
+        <Form>
+          
+        </Form>
       )}
-    </ElementsConsumer>
+    </Formik>
   );
-};
+}
 
 export default CheckoutForm;

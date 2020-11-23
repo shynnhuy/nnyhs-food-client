@@ -17,7 +17,6 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "redux/auth/auth.actions";
 import { filterProducts } from "redux/product/product.actions";
-import { setNavbarHeight } from "redux/ui/ui.actions";
 import { useThemeContext } from "context/ThemeContext";
 
 import SIcon from "components/core/SIcon";
@@ -25,22 +24,10 @@ import { selectCartItemsCount } from "redux/cart/cart.selectors";
 
 import { debounce } from "lodash";
 
-export const Navbar = ({
-  auth,
-  shop,
-  logout,
-  filterProducts,
-  cartCount,
-  setNavbarHeight,
-}) => {
+export const Navbar = ({ auth, shop, logout, filterProducts, cartCount }) => {
   const classes = useStyles();
   const history = useHistory();
   const [profileMenu, setProfileMenu] = useState(null);
-
-  // const ref = useRef(null);
-  // useEffect(() => {
-  //   setNavbarHeight(ref.current.clientHeight);
-  // }, [setNavbarHeight]);
 
   const handleClick = (event) => setProfileMenu(event.currentTarget);
 

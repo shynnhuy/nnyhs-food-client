@@ -1,5 +1,11 @@
 import styled from "styled-components";
-import { Box, Button, makeStyles, TableCell } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  makeStyles,
+  TableCell,
+  Typography,
+} from "@material-ui/core";
 
 import img from "assets/img/food-icons-17.png";
 
@@ -7,8 +13,32 @@ export default makeStyles((theme) => ({
   container: {
     overflow: "hidden",
     [theme.breakpoints.up("md")]: {
-      height: (props) => `calc(100vh - ${props.navheight}px)`,
-      maxHeight: (props) => `calc(100vh - ${props.navheight}px)`,
+      // height: (props) => `calc(100vh - ${props.navheight}px)`,
+      // maxHeight: (props) => `calc(100vh - ${props.navheight}px)`,
+    },
+  },
+  title: {
+    fontSize: "18px",
+  },
+  total: {
+    fontSize: "36px",
+    fontWeight: 500,
+  },
+  shipCost: {
+    fontSize: "18px",
+    color: "#0a9c5f",
+    marginTop: theme.spacing(2),
+  },
+  checkout: {
+    margin: theme.spacing(2, 0),
+    padding: theme.spacing(1, 2),
+  },
+  commitments: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.only("sm")]: {
+      flexDirection: "row",
+      justifyContent: "space-between",
     },
   },
 }));
@@ -21,9 +51,7 @@ export const StyledCartTitle = styled.h2`
 `;
 
 export const StyledCheckOutContainer = styled(Box)`
-  /* color: white; */
   ${({ theme }) => `
-  background-color: ${theme.palette.type === "light" ? "#4e4e53" : "white"};
   height: 100%;
   padding: 30px;
   border-radius: 15px;
@@ -58,4 +86,26 @@ export const StyledClearButton = styled(Button)`
     min-width: unset;
     color: ${theme.palette.error.main}
   `}
+`;
+
+export const CommitItem = styled(Box)`
+  ${({ theme }) => `
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 7px;
+  margin: 5px 0;
+  border-left: 6px solid ${theme.palette.primary.main};
+  i {
+    font-size: 20px;
+    color: ${theme.palette.primary.main};
+    margin-right: 10px;
+    margin-left: 5px;
+  }
+  `}
+`;
+
+export const CommitItemTypo = styled(Typography)`
+  font-weight: 500;
+  font-size: 16px;
 `;
