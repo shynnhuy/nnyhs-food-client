@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ShynnTable from "components/core/ShynnTable";
 import { serialize } from "object-to-formdata";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -9,7 +10,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   makeStyles,
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
@@ -53,13 +53,11 @@ export const ListCategory = () => {
   }
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Button onClick={() => openModal()}>
-          New Category
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
+    <React.Fragment>
+      <Button color="primary" variant="outlined" onClick={() => openModal()}>
+        New Category
+      </Button>
+      <Box mt={3}>
         <Card>
           <CardContent>
             <ShynnTable
@@ -101,9 +99,9 @@ export const ListCategory = () => {
             />
           </CardContent>
         </Card>
-      </Grid>
+      </Box>
       <CategoryForm open={open} handleClose={closeModal} />
-    </Grid>
+    </React.Fragment>
   );
 };
 
@@ -208,13 +206,13 @@ const CategoryForm = ({ open, handleClose }) => {
                 )}
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} color="danger">
+                <Button onClick={handleClose} color="secondary">
                   Cancel
                 </Button>
                 <Button
                   onClick={() => submitForm()}
                   disabled={isSubmitting || !isValid || !dirty}
-                  color="success"
+                  color="primary"
                 >
                   Subscribe
                 </Button>

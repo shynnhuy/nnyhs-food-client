@@ -9,6 +9,7 @@ import {
   sortByPrice,
   sortByAlphabet,
 } from "redux/product/product.actions";
+import ShynnMap from "components/core/ShynnMap";
 
 export const Home = ({
   shop,
@@ -68,6 +69,7 @@ export const Home = ({
         filter={filter}
         setFilter={setFilter}
       />
+      <ShynnMap />
     </React.Fragment>
   );
 };

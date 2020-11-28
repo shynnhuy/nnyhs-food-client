@@ -3,17 +3,6 @@ const { makeStyles } = require("@material-ui/core");
 const drawerWidth = 240;
 
 export default makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    background: theme.palette.type === "light" ? "#fff" : "#000",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 100,
-    boxShadow: theme.shadows[5],
-  },
   appBar: {
     // background: theme.palette.type === "light" ? "#fff" : "#000",
     zIndex: theme.zIndex.drawer + 1,
@@ -29,6 +18,11 @@ export default makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  toolbar: {
+    ...theme.mixins.toolbar,
+    display: "flex",
+    justifyContent: "space-between",
   },
   menuButton: {
     marginRight: 36,

@@ -3,6 +3,9 @@ import SocketContext from "./context";
 import * as io from "socket.io-client";
 
 const SocketProvider = (props) => {
+  const endpoint =
+    process.env.NODE_ENV === "development" ? "http://localhost:8000" : "/";
+
   let Socket = {
     connect,
     emit,
@@ -13,7 +16,7 @@ const SocketProvider = (props) => {
   };
 
   function connect() {
-    Socket.socket = io.connect("http://localhost:8000", { reconnect: true });
+    Socket.socket = io.connect(endpoint, { reconnect: true });
   }
 
   function on(eventName, callback) {

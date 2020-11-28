@@ -10,6 +10,7 @@ import {
   Tooltip,
   Zoom,
   Badge,
+  Hidden,
 } from "@material-ui/core";
 import useStyles from "./styles";
 import SearchBar from "material-ui-search-bar";
@@ -23,8 +24,16 @@ import SIcon from "components/core/SIcon";
 import { selectCartItemsCount } from "redux/cart/cart.selectors";
 
 import { debounce } from "lodash";
+import { DehazeTwoTone } from "@material-ui/icons";
 
-export const Navbar = ({ auth, shop, logout, filterProducts, cartCount }) => {
+export const Navbar = ({
+  auth,
+  shop,
+  logout,
+  filterProducts,
+  cartCount,
+  toggleSidebar,
+}) => {
   const classes = useStyles();
   const history = useHistory();
   const [profileMenu, setProfileMenu] = useState(null);
@@ -102,7 +111,7 @@ export const Navbar = ({ auth, shop, logout, filterProducts, cartCount }) => {
         </Button>
       </Box>
 
-      <Box className={classes.Right}>
+      <Box className={classes.Center}>
         <SearchBar
           cancelOnEscape
           onChange={onChangeSearch}
@@ -118,38 +127,44 @@ export const Navbar = ({ auth, shop, logout, filterProducts, cartCount }) => {
           inputProps={{ "aria-label": "search" }}
         />
       </Box>
-      {/* <Switch checked={darkState} onChange={handleThemeChange} /> */}
-      {renderToggle()}
-      {auth.isAuthenticated ? (
-        <IconButton onClick={handleClick}>
-          <i className="fad fa-user"></i>
+      <div className={classes.Right}>
+        {renderToggle()}
+        {auth.isAuthenticated ? (
+          <IconButton onClick={handleClick}>
+            <i className="fad fa-user"></i>
+          </IconButton>
+        ) : (
+          <IconButton onClick={toLogin}>
+            <i className="fad fa-user"></i>
+          </IconButton>
+        )}
+        {auth.isRequestShop && shop.details.status === "approval" && (
+          <IconButton onClick={toShop}>
+            <i className="fad fa-store"></i>
+          </IconButton>
+        )}
+        <IconButton onClick={toCart}>
+          <Badge badgeContent={cartCount} color="secondary" showZero>
+            <i className="fad fa-shopping-cart"></i>
+          </Badge>
         </IconButton>
-      ) : (
-        <IconButton onClick={toLogin}>
-          <i className="fad fa-user"></i>
+        <Menu
+          id="simple-menu"
+          anchorEl={profileMenu}
+          keepMounted
+          open={Boolean(profileMenu)}
+          onClose={handleClose}
+        >
+          {auth.isAdmin && <MenuItem onClick={toAdmin}>Admin</MenuItem>}
+          <MenuItem onClick={toProfile}>Profile</MenuItem>
+          <MenuItem onClick={onLogout}>Logout</MenuItem>
+        </Menu>
+      </div>
+      <Hidden smUp>
+        <IconButton onClick={toggleSidebar(true)}>
+          <DehazeTwoTone />
         </IconButton>
-      )}
-      {auth.isRequestShop && shop.details.status === "approval" && (
-        <IconButton onClick={toShop}>
-          <i className="fad fa-store"></i>
-        </IconButton>
-      )}
-      <IconButton onClick={toCart}>
-        <Badge badgeContent={cartCount} color="secondary" showZero>
-          <i className="fad fa-shopping-cart"></i>
-        </Badge>
-      </IconButton>
-      <Menu
-        id="simple-menu"
-        anchorEl={profileMenu}
-        keepMounted
-        open={Boolean(profileMenu)}
-        onClose={handleClose}
-      >
-        {auth.isAdmin && <MenuItem onClick={toAdmin}>Admin</MenuItem>}
-        <MenuItem onClick={toProfile}>Profile</MenuItem>
-        <MenuItem onClick={onLogout}>Logout</MenuItem>
-      </Menu>
+      </Hidden>
     </Box>
   );
 };

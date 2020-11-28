@@ -1,12 +1,7 @@
 import React from "react";
 import { Button, Container, Grid, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import useStyles, {
-  StyledCartTitle,
-  StyledCheckOutContainer,
-  CommitItem,
-  CommitItemTypo
-} from "./styles";
+import useStyles, { StyledCartTitle, StyledCheckOutContainer } from "./styles";
 import CartList from "./CartList";
 import { createStructuredSelector } from "reselect";
 import {
@@ -19,6 +14,7 @@ import {
   removeItem,
   clearItemFromCart,
 } from "redux/cart/cart.actions";
+import Commitments from "components/User/Commitments";
 
 // const stripePromise = loadStripe(
 //   "pk_test_51HpaMfDXe7CZVgBqiIgpeMqMNVmDBr5QyKd1nfrmpqpjXzqqjkAj1FbpeV0Uf609BuYPh9ukKNTqoicusZ7laNag00Snv3xF30"
@@ -79,20 +75,7 @@ const Cart = ({
             >
               proceed to checkout
             </Button>
-            <div className={classes.commitments}>
-              <CommitItem>
-                <i className="fad fa-shield-check fa-fw"></i>
-                <CommitItemTypo variant="h6">Security policy</CommitItemTypo>
-              </CommitItem>
-              <CommitItem>
-                <i className="fad fa-shipping-fast fa-fw"></i>
-                <CommitItemTypo variant="h6">Shipping policy</CommitItemTypo>
-              </CommitItem>
-              <CommitItem>
-                <i className="fad fa-undo fa-fw"></i>
-                <CommitItemTypo variant="h6">Return policy</CommitItemTypo>
-              </CommitItem>
-            </div>
+            <Commitments />
           </StyledCheckOutContainer>
         </Grid>
       </Grid>

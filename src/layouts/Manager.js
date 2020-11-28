@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Box, CssBaseline, makeStyles, Paper } from "@material-ui/core";
+import { Box, CssBaseline, makeStyles } from "@material-ui/core";
 import { Redirect, Route } from "react-router-dom";
 import { Navbar, Sidebar, Footer } from "components/Manager";
 import { connect } from "react-redux";
-import styled from "styled-components";
 
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -47,7 +46,16 @@ const ManagerLayout = ({ children }) => {
       <Box display="flex" className={classes.layout}>
         <Navbar open={open} handleDrawerOpen={handleDrawerOpen} />
         <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
-        <StyledWrapper>
+        <div className={classes.wrapper}>
+          <div className={classes.contentContainer}>
+            <div className={classes.toolbar} />
+            <PerfectScrollbar>
+              <div className={classes.content}>{children}</div>
+            </PerfectScrollbar>
+          </div>
+          <Footer />
+        </div>
+        {/* <StyledWrapper>
           <PerfectScrollbar>
             <main className={classes.main}>
               <div className={classes.toolbar} />
@@ -55,7 +63,7 @@ const ManagerLayout = ({ children }) => {
             </main>
           </PerfectScrollbar>
           <Footer />
-        </StyledWrapper>
+        </StyledWrapper> */}
       </Box>
     </React.Fragment>
   );
@@ -70,33 +78,32 @@ export default connect(mapState)(ManagerRoute);
 const useStyles = makeStyles((theme) => ({
   layout: {
     maxHeight: "100vh",
+    backgroundColor: theme.palette.background.dark,
+    display: "flex",
     height: "100vh",
     overflow: "hidden",
+    width: "100%",
   },
-  main: {
-    padding: theme.spacing(0, 3, 3, 3),
-    // paddingBottom: "0px !important",
-    // flexGrow: 1,
-    maxHeight: "100%",
+  wrapper: {
+    display: "flex",
+    flex: "1 1 auto",
+    overflow: "hidden",
+    flexDirection: "column",
+  },
+  contentContainer: {
+    display: "flex",
+    flex: "1 1 auto",
+    overflow: "hidden",
+    flexDirection: "column",
+  },
+  content: {
+    flex: "1 1 auto",
+    height: "100%",
     overflowY: "scroll",
+    padding: theme.spacing(3),
   },
   toolbar: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
-    marginBottom: theme.spacing(2),
     ...theme.mixins.toolbar,
   },
 }));
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-`;
-
-const StyledPaper = styled(Paper)`
-  padding: 12px;
-`;

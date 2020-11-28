@@ -33,14 +33,14 @@ const ProductItem = ({ product, addItem, inCart }) => {
           <StyledCardImage image={product.imageUrl} />
           <StyledCardTitle>{product.name}</StyledCardTitle>
           <StyledCardDescription>{product.shop.address}</StyledCardDescription>
-          <span>{product.price}$</span>
+          <span>{product.price}đ</span>
         </div>
         <StyledCardFooter>
           <Rating
             name={`${product.code}-${product._id}`}
             defaultValue={0}
             precision={0.5}
-            emptyIcon={<StarBorderTwoTone fontSize="inherit" />}
+            emptyIcon={<StarBorderTwoTone className={classes.blankStar} />}
           />
           <Tooltip
             arrow

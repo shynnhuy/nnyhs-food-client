@@ -1,6 +1,14 @@
-import { Box, Typography, Paper, Tabs, Tab, Button } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Paper,
+  Tabs,
+  Tab,
+  Button,
+  Container,
+} from "@material-ui/core";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import { array, object, string } from "yup";
 
@@ -13,10 +21,7 @@ import { updateInfo } from "redux/auth/auth.actions";
 import { createShop, loadShop } from "redux/shop/shop.actions";
 import { useSocket } from "context/SocketContext";
 
-export const Profile = () => {
-  const auth = useSelector((state) => state.auth);
-  const shop = useSelector((state) => state.shop);
-
+export const Profile = ({ auth, shop }) => {
   const socket = useSocket();
 
   const { user } = auth;
@@ -74,172 +79,164 @@ export const Profile = () => {
   });
 
   React.useEffect(() => {
-    // socket.emit("change_request_status", "deptrai")
     socket.on("onchange_request_status", (res) => dispatch(loadShop(res)));
   });
 
-  if (auth.isAuthenticated) {
-    return (
-      <Box className={classes.root}>
-        {/* <Box className={classes.child}> */}
-        <Typography variant="h2" gutterBottom>
-          {user?.displayName} Profile
-        </Typography>
-        <Paper square elevation={5} className={classes.tab}>
-          <Tabs
-            value={value}
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={handleChange}
-            variant="fullWidth"
-          >
-            <Tab label="Profile" />
-            {auth.isRequestShop ? (
-              <Tab label="Shop Detail" />
-            ) : (
-              <Tab label="Shop Register" />
-            )}
-          </Tabs>
+  return (
+    <Container maxWidth="lg" className={classes.root}>
+      <Typography variant="h2" gutterBottom>
+        {user?.displayName} Profile
+      </Typography>
+      <Paper square elevation={5} className={classes.tab}>
+        <Tabs
+          value={value}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          variant="fullWidth"
+        >
+          <Tab label="Profile" />
+          {auth.isRequestShop ? (
+            <Tab label="Shop Detail" />
+          ) : (
+            <Tab label="Shop Register" />
+          )}
+        </Tabs>
 
-          <TabPanel value={value} index={0}>
+        <TabPanel value={value} index={0}>
+          <Formik
+            initialValues={initalStateUser}
+            validationSchema={validationSchemaUser}
+            onSubmit={async (values, { setSubmitting }) => {
+              // console.log(values);
+              dispatch(updateInfo(values));
+              setSubmitting(false);
+            }}
+          >
+            {({ submitForm, isSubmitting, dirty, isValid, errors }) => (
+              <Form className={classes.form}>
+                <FormikField
+                  margin="normal"
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                  error={errors.email}
+                  disabled
+                />
+                <FormikField
+                  margin="normal"
+                  label="Display Name"
+                  name="displayName"
+                  error={errors.displayName}
+                />
+                <FormikField
+                  margin="normal"
+                  label="Address"
+                  name="address"
+                  error={errors.address}
+                />
+                <FormikField
+                  margin="normal"
+                  label="Age"
+                  name="age"
+                  error={errors.age}
+                  type="number"
+                />
+                <FormikRadio
+                  className={classes.radio}
+                  name="gender"
+                  items={genderItems}
+                  isSubmitting={isSubmitting}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={submitForm}
+                  disabled={isSubmitting || !dirty || !isValid}
+                >
+                  UPDATE INFORMATION
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </TabPanel>
+        {auth.isRequestShop ? (
+          <TabPanel value={value} index={1}>
+            <Typography variant="h6" align="center">
+              Shop id: {shop.details._id}
+            </Typography>
+            <Typography variant="h6" align="center">
+              Shop status:{" "}
+              <span
+                className={
+                  shop.details.status === "approval"
+                    ? classes.accept
+                    : classes.refuse
+                }
+              >
+                {shop.details.status}
+              </span>
+            </Typography>
+          </TabPanel>
+        ) : (
+          <TabPanel value={value} index={1}>
             <Formik
-              initialValues={initalStateUser}
-              validationSchema={validationSchemaUser}
+              initialValues={initalStateShop}
+              validationSchema={validationSchemaShop}
               onSubmit={async (values, { setSubmitting }) => {
-                // console.log(values);
-                dispatch(updateInfo(values));
+                setSubmitting(true);
+                dispatch(createShop(values));
                 setSubmitting(false);
               }}
             >
-              {({ submitForm, isSubmitting, dirty, isValid, errors }) => (
+              {({
+                submitForm,
+                isSubmitting,
+                dirty,
+                isValid,
+                touched,
+                errors,
+              }) => (
                 <Form className={classes.form}>
                   <FormikField
                     margin="normal"
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    error={errors.email}
-                    disabled
-                  />
-                  <FormikField
-                    margin="normal"
-                    label="Display Name"
-                    name="displayName"
-                    error={errors.displayName}
+                    label="Name Shop"
+                    name="name"
+                    error={touched.name && errors.name}
                   />
                   <FormikField
                     margin="normal"
                     label="Address"
                     name="address"
-                    error={errors.address}
+                    error={touched.address && errors.address}
                   />
                   <FormikField
                     margin="normal"
-                    label="Age"
-                    name="age"
-                    error={errors.age}
-                    type="number"
+                    label="Identity Card"
+                    name="identityCard"
+                    error={touched.identityCard && errors.identityCard}
                   />
-                  <FormikRadio
-                    className={classes.radio}
-                    name="gender"
-                    items={genderItems}
-                    isSubmitting={isSubmitting}
-                  />
+                  <FormikCheckbox name="categories" fields={shop.categories} />
                   <Button
                     variant="contained"
                     color="primary"
-                    fullWidth
+                    type="button"
                     onClick={submitForm}
+                    fullWidth
                     disabled={isSubmitting || !dirty || !isValid}
                   >
-                    UPDATE INFORMATION
+                    REGISTER TO BE OUT PARTNER
                   </Button>
                 </Form>
               )}
             </Formik>
           </TabPanel>
-          {auth.isRequestShop ? (
-            <TabPanel value={value} index={1}>
-              <Typography variant="h6" align="center">
-                Shop id: {shop.details._id}
-              </Typography>
-              <Typography variant="h6" align="center">
-                Shop status:{" "}
-                <span
-                  className={
-                    shop.details.status === "approval"
-                      ? classes.accept
-                      : classes.refuse
-                  }
-                >
-                  {shop.details.status}
-                </span>
-              </Typography>
-            </TabPanel>
-          ) : (
-            <TabPanel value={value} index={1}>
-              <Formik
-                initialValues={initalStateShop}
-                validationSchema={validationSchemaShop}
-                onSubmit={async (values, { setSubmitting }) => {
-                  setSubmitting(true);
-                  dispatch(createShop(values));
-                  setSubmitting(false);
-                }}
-              >
-                {({
-                  submitForm,
-                  isSubmitting,
-                  dirty,
-                  isValid,
-                  touched,
-                  errors,
-                }) => (
-                  <Form className={classes.form}>
-                    <FormikField
-                      margin="normal"
-                      label="Name Shop"
-                      name="name"
-                      error={touched.name && errors.name}
-                    />
-                    <FormikField
-                      margin="normal"
-                      label="Address"
-                      name="address"
-                      error={touched.address && errors.address}
-                    />
-                    <FormikField
-                      margin="normal"
-                      label="Identity Card"
-                      name="identityCard"
-                      error={touched.identityCard && errors.identityCard}
-                    />
-                    <FormikCheckbox
-                      name="categories"
-                      fields={shop.categories}
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="button"
-                      onClick={submitForm}
-                      fullWidth
-                      disabled={isSubmitting || !dirty || !isValid}
-                    >
-                      REGISTER TO BE OUT PARTNER
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
-            </TabPanel>
-          )}
-        </Paper>
-        {/* </Box> */}
-      </Box>
-    );
-  }
-  return null;
+        )}
+      </Paper>
+      {/* </Box> */}
+    </Container>
+  );
 };
 
 function TabPanel(props) {
@@ -258,4 +255,9 @@ function TabPanel(props) {
   );
 }
 
-export default Profile;
+const mapState = (state) => ({
+  auth: state.auth,
+  shop: state.shop,
+});
+
+export default connect(mapState)(Profile);

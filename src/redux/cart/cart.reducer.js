@@ -3,8 +3,13 @@ import {
   REMOVE_FROM_CART,
   CLEAR_FROM_CART,
   CLEAR_CART,
+  ADD_ITEMS_TO_CART,
 } from "./cart.types";
-import { addItemToCart, removeItemFromCart } from "./cart.utils";
+import {
+  addItemsToCart,
+  addItemToCart,
+  removeItemFromCart,
+} from "./cart.utils";
 
 const inititalState = {
   cartItems: [],
@@ -16,6 +21,15 @@ export default (state = inititalState, action) => {
       return {
         ...state,
         cartItems: addItemToCart(state.cartItems, action.payload),
+      };
+    case ADD_ITEMS_TO_CART:
+      return {
+        ...state,
+        cartItems: addItemsToCart(
+          state.cartItems,
+          action.payload.item,
+          action.payload.quantity
+        ),
       };
     case REMOVE_FROM_CART:
       return {

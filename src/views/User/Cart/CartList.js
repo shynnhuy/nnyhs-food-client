@@ -22,12 +22,8 @@ const CartList = ({ items, count, changeQuantity }) => {
       <Table>
         <TableBody>
           {count > 0 && items ? (
-            items.map((item) => (
-              <CartItem
-                key={item._id}
-                item={item}
-                changeQuantity={changeQuantity}
-              />
+            items.map((item, key) => (
+              <CartItem key={key} item={item} changeQuantity={changeQuantity} />
             ))
           ) : (
             <TableRow>

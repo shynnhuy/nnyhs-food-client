@@ -9,10 +9,10 @@ import {
   Typography,
   Tooltip,
   Zoom,
+  Hidden,
 } from "@material-ui/core";
 import clsx from "clsx";
 import { AlarmTwoTone, MenuRounded } from "@material-ui/icons";
-import SearchBar from "material-ui-search-bar";
 
 import { useThemeContext } from "context/ThemeContext";
 import SIcon from "components/core/SIcon";
@@ -56,7 +56,7 @@ export const Navbar = ({ open, handleDrawerOpen, user }) => {
         [classes.appBarShift]: open,
       })}
     >
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <Box className={classes.Outer}>
           <Box className={classes.NavLink}>
             <IconButton
@@ -75,25 +75,24 @@ export const Navbar = ({ open, handleDrawerOpen, user }) => {
             </Typography>
           </Button>
         </Box>
-        <Box className={classes.SearchContainer}>
-          <SearchBar className={classes.SearchBar} />
-        </Box>
-        <Box className={classes.Outer}>
-          {renderToggle()}
-          <IconButton>
-            <AlarmTwoTone fontSize="inherit" />
-          </IconButton>
-          <IconButton>
-            <Avatar src="/assets/github/react.svg" />
-          </IconButton>
-        </Box>
+        <Hidden smDown>
+          <Box className={classes.Outer}>
+            {renderToggle()}
+            <IconButton>
+              <AlarmTwoTone fontSize="inherit" />
+            </IconButton>
+            <IconButton>
+              <Avatar src="/assets/github/react.svg" />
+            </IconButton>
+          </Box>
+        </Hidden>
       </Toolbar>
     </AppBar>
   );
 };
 
-const mapState = state => ({
-  user: state.auth.user
-})
+const mapState = (state) => ({
+  user: state.auth.user,
+});
 
 export default connect(mapState)(Navbar);

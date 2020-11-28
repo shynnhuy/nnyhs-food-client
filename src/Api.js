@@ -1,9 +1,8 @@
 import axios from "axios";
 import queryString from "query-string";
-// import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000/api" : "/api",
   headers: {
     "Content-Type": "application/json",
   },

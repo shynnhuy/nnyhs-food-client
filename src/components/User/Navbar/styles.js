@@ -16,15 +16,21 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  Right: { width: "100%" },
-  title: {
+  Center: {
+    width: "100%",
+  },
+  Right: {
     display: "none",
-    fontWeight: "bold",
     [theme.breakpoints.up("sm")]: {
-      display: "block",
+      display: "flex",
+      justifyContent: "flex-end",
     },
+  },
+  title: {
+    display: "block",
+    fontWeight: "bold",
     flexGrow: 1,
-    textAlign: "center"
+    textAlign: "center",
   },
   inputRoot: {
     width: "50%",

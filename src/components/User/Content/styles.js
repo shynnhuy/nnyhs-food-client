@@ -7,7 +7,10 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   Filter: {
-    width: theme.spacing(30),
+    width: theme.spacing(25),
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(30),
+    },
   },
   list: {
     marginTop: theme.spacing(1),

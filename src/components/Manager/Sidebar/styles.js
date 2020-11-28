@@ -65,4 +65,13 @@ export default makeStyles((theme) => ({
     minWidth: "56px",
     flexShrink: 0,
   },
+  navitem: {
+    overflow: "hidden",
+  },
+  boxListOpen: {
+    padding: theme.spacing(2),
+  },
+  boxListClose: {
+    padding: theme.spacing(1),
+  },
 }));

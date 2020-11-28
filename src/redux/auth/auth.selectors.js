@@ -10,3 +10,7 @@ export const selectIsAdmin = createSelector(
   [selectAuth],
   (auth) => auth.isAdmin
 );
+export const selectUserDetails = createSelector(
+  [selectAuth],
+  (auth) => auth.user
+);
