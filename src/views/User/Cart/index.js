@@ -15,12 +15,15 @@ import {
   clearItemFromCart,
 } from "redux/cart/cart.actions";
 import Commitments from "components/User/Commitments";
+import CheckOut from "../Checkout";
+import useModal from "hooks/useModal";
 
 // const stripePromise = loadStripe(
 //   "pk_test_51HpaMfDXe7CZVgBqiIgpeMqMNVmDBr5QyKd1nfrmpqpjXzqqjkAj1FbpeV0Uf609BuYPh9ukKNTqoicusZ7laNag00Snv3xF30"
 // );
 
 const Cart = ({
+  user,
   cartItems,
   cartCount,
   cartTotal,
@@ -44,6 +47,7 @@ const Cart = ({
         return;
     }
   };
+  const handleModal = useModal();
 
   return (
     <Container className={classes.container} maxWidth="lg">
@@ -72,6 +76,7 @@ const Cart = ({
               color="primary"
               variant="outlined"
               className={classes.checkout}
+              onClick={() => handleModal(<CheckOut />)}
             >
               proceed to checkout
             </Button>

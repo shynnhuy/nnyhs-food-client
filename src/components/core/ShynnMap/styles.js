@@ -1,4 +1,42 @@
-export default [
+import { makeStyles } from "@material-ui/core";
+
+export default makeStyles((theme) => ({
+  root: {
+    position: "relative",
+  },
+  searchContainer: {
+    position: "absolute",
+    top: "1rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 10,
+    width: "100%",
+    maxWidth: "80%",
+    backgroundColor: "white",
+    color: theme.palette.type === "dark" ? "white" : "black",
+  },
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
+  },
+  locateBtn: {
+    position: "absolute",
+    top: "1rem",
+    right: "1rem",
+    zIndex: 10,
+    "& i": {
+      "--fa-primary-color": "red",
+      "--fa-secondary-color": "#702a24",
+    },
+    [theme.breakpoints.down("md")]: {
+      top: "unset",
+      bottom: "9rem",
+      right: "0.3rem",
+    },
+  },
+}));
+
+export const mapStyles = [
   {
     featureType: "all",
     elementType: "geometry.fill",

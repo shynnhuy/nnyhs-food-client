@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
-import { deepPurple, lightBlue, orange, pink } from "@material-ui/core/colors";
+import { deepOrange, pink, lightBlue, red } from "@material-ui/core/colors";
 import SocketProvider from "./SocketContext";
 import "assets/scss/fonts/_index.scss";
 import "typeface-roboto";
@@ -21,8 +21,10 @@ export function useThemeContext() {
 const SThemeProvider = ({ children }) => {
   const [darkState, setDarkState] = useState(false);
   const palletType = darkState ? "dark" : "light";
-  const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
-  const mainSecondaryColor = darkState ? pink[500] : deepPurple[500];
+  // const mainPrimaryColor = darkState ? deepOrange[500] : cyan[700];
+  // const mainSecondaryColor = darkState ? "#448aff" : red[400];
+  const mainPrimaryColor = darkState ? deepOrange[500] : lightBlue[600];
+  const mainSecondaryColor = darkState ? pink[500] : red[400];
   const darkTheme = createMuiTheme({
     palette: {
       type: palletType,
@@ -49,16 +51,16 @@ const SThemeProvider = ({ children }) => {
       },
       MuiCssBaseline: {
         "@global": {
-          "*::-webkit-scrollbar": {
-            width: "0.5em",
-          },
-          "*::-webkit-scrollbar-track": {
-            "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0, 0.85)",
-          },
-          "*::-webkit-scrollbar-thumb": {
-            backgroundColor: "rgba(0,0,0,.1)",
-            outline: "1px solid slategrey",
-          },
+          // "*::-webkit-scrollbar": {
+          //   width: "0.5em",
+          // },
+          // "*::-webkit-scrollbar-track": {
+          //   "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0, 0.85)",
+          // },
+          // "*::-webkit-scrollbar-thumb": {
+          //   backgroundColor: "rgba(0,0,0,.1)",
+          //   outline: "1px solid slategrey",
+          // },
           a: {
             color: "unset",
           },

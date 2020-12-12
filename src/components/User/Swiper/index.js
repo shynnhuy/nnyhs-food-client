@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardMedia, Container, Typography } from "@material-ui/core";
+import { Box, Card, CardMedia, Typography } from "@material-ui/core";
 import SwiperCore, { Navigation, A11y, Lazy, Zoom } from "swiper";
 import { Swiper as SwiperContainer, SwiperSlide } from "swiper/react";
 
@@ -21,6 +21,7 @@ const SwiperItem = ({ _id, name, imageUrl, changeCategory }) => {
         {name}
       </Typography>
       <CardMedia className={classes.cover} image={imageUrl} title={name} />
+      <div className={classes.overlay} />
     </Card>
   );
 };
@@ -43,10 +44,12 @@ export const Swiper = ({ categories, changeCategory }) => {
   ];
 
   return (
-    <Box component={Container} className={classes.root}>
+    <Box className={classes.root}>
       <SwiperContainer
+        className={classes.box}
         spaceBetween={35}
         slidesPerView={6}
+        navigation
         breakpoints={{
           320: {
             slidesPerView: 2,

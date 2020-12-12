@@ -6,6 +6,9 @@ export default makeStyles((theme) => ({
     // height: 140,
     // padding: theme.spacing(2),
   },
+  box: {
+    marginTop: theme.spacing(3),
+  },
   Card: {
     position: "relative",
     boxSizing: "border-box",
@@ -14,11 +17,11 @@ export default makeStyles((theme) => ({
     height: 110,
     borderRadius: theme.spacing(1),
     "&:hover": {
-      boxShadow: "0 0 0 3px #00b14f",
+      //   boxShadow: "0 0 0 3px #00b14f",
       cursor: "pointer",
+      backgroundColor: "rgba(0,177,79,.6)",
 
       // "& .makeStyles-cover-23": {
-      //   backgroundColor: "rgba(0,177,79,.6)"
       // }
     },
   },
@@ -28,7 +31,7 @@ export default makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     color: "white",
-    fontSize: "1.3rem"
+    fontSize: "1.3rem",
   },
   cover: {
     width: "100%",

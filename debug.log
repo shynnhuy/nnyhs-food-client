@@ -4,3 +4,6 @@
 [1023/113515.163:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Shynn\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\36bb57e0-86d4-40a5-b81a-14c2eb16b6fe: The system cannot find the path specified. (0x3)
 [1023/113515.167:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Shynn\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\f76af7bd-5f38-4f45-add5-fb7084c63a5c: The system cannot find the path specified. (0x3)
 [1023/113515.168:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1130/152621.602:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1130/162832.228:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1202/100159.160:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

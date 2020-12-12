@@ -1,13 +1,15 @@
 import React, { useState, useCallback, useRef, memo } from "react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 
-import styles from "./styles";
+import useStyles, { mapStyles as styles } from "./styles";
+import SearchBox from "./SearchBox";
+import Locate from "./Locate";
+import { Button } from "@material-ui/core";
 
 const API_KEY = "AIzaSyDLg1rFmG08zo7CNjmwwY9fORRtKC6AU_o";
 const libraries = ["places"];
 
 const containerStyle = {
-  width: "100vw",
   height: "500px",
 };
 
@@ -22,7 +24,8 @@ const options = {
   zoomControl: true,
 };
 
-function ShynnMap() {
+function ShynnMap({ get }) {
+  const classes = useStyles();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: API_KEY,
     libraries,
@@ -37,26 +40,40 @@ function ShynnMap() {
   const [maker, setMaker] = useState(center);
 
   const onMapClick = useCallback((event) => {
+    console.log(event);
     setMaker({
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
-      time: new Date(),
     });
   }, []);
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(15);
+    setMaker({ lat, lng });
+  }, []);
+
   if (loadError) return "Error loading google map API";
   if (!isLoaded) return "Loading Map...";
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={8}
-      options={options}
-      onClick={onMapClick}
-      onLoad={onMapLoad}
-    >
-      <Marker position={maker} />
-    </GoogleMap>
+    <div className={classes.root}>
+      <SearchBox panTo={panTo} />
+      <Locate panTo={panTo} />
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={8}
+        options={options}
+        onClick={onMapClick}
+        onLoad={onMapLoad}
+      >
+        <Marker position={maker} />
+      </GoogleMap>
+      <Button variant="outlined" color="primary">
+        Choose
+      </Button>
+    </div>
   );
 }
 

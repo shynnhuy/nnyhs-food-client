@@ -140,7 +140,7 @@ const ShopMain = ({ component: Component, value, index, ...other }) => {
 };
 
 const ShopDetail = ({ _id, name, address }) => {
-  const formik = useFormik({
+  const { handleSubmit, handleChange, values } = useFormik({
     initialValues: {
       _id,
       name,
@@ -148,31 +148,31 @@ const ShopDetail = ({ _id, name, address }) => {
     },
     onSubmit: (values) => {
       console.log(values);
-    },
+    }
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <TextField
         name="_id"
         label="Shop ID"
-        value={formik.values._id}
-        onChange={formik.handleChange}
+        value={values._id}
+        onChange={handleChange}
         disabled
         fullWidth
       />
       <TextField
         name="name"
         label="Shop Name"
-        value={formik.values.name}
-        onChange={formik.handleChange}
+        value={values.name}
+        onChange={handleChange}
         fullWidth
       />
       <TextField
         name="address"
         label="Shop Address"
-        value={formik.values.address}
-        onChange={formik.handleChange}
+        value={values.address}
+        onChange={handleChange}
         fullWidth
       />
       <Button variant="outlined" color="primary" fullWidth>

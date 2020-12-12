@@ -16,7 +16,7 @@ import {
 
 const initialState = {
   // token: JSON.parse(sessionStorage.getItem('token') || '') || null,
-  token: JSON.parse(sessionStorage.getItem("token")) || null,
+  token: JSON.parse(localStorage.getItem("token")) || null,
   isAuthenticated: null,
   isAdmin: false,
   isLoading: false,
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      sessionStorage.setItem("token", JSON.stringify(action.payload.token));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
       return {
         ...state,
         ...action.payload,
@@ -53,7 +53,7 @@ export default function (state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,

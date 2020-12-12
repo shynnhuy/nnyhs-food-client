@@ -11,28 +11,30 @@ import {
   Zoom,
   Badge,
   Hidden,
+  Paper,
+  Divider,
+  InputBase,
 } from "@material-ui/core";
 import useStyles from "./styles";
-import SearchBar from "material-ui-search-bar";
+// import SearchBar from "material-ui-search-bar";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "redux/auth/auth.actions";
-import { filterProducts } from "redux/product/product.actions";
 import { useThemeContext } from "context/ThemeContext";
 
 import SIcon from "components/core/SIcon";
 import { selectCartItemsCount } from "redux/cart/cart.selectors";
 
-import { debounce } from "lodash";
-import { DehazeTwoTone } from "@material-ui/icons";
+import { DehazeTwoTone, Directions } from "@material-ui/icons";
+// import ShynnMap from "components/core/ShynnMap";
 
 export const Navbar = ({
   auth,
   shop,
   logout,
-  filterProducts,
   cartCount,
   toggleSidebar,
+  noSearch,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -49,7 +51,7 @@ export const Navbar = ({
   const toHome = () => history.push("/");
   const toAdmin = () => history.push("/admin/dashboard");
   const toLogin = () => history.push("/login");
-  const toShop = () => history.push("/shop");
+  const toShop = () => history.push("/myshop");
   const toCart = () => history.push("/cart");
   const toProfile = () => {
     history.push("/profile");
@@ -57,37 +59,20 @@ export const Navbar = ({
   };
 
   const { darkState, handleThemeChange } = useThemeContext();
-  const LightIcon = () => (
-    <Tooltip
-      title="Toogle Light Theme"
-      placement="left"
-      arrow
-      TransitionComponent={Zoom}
-    >
+  const ToggleIcon = ({ title, icon }) => (
+    <Tooltip title={title} placement="left" arrow TransitionComponent={Zoom}>
       <IconButton onClick={() => handleThemeChange()}>
-        <SIcon className="fa-sun" />
-      </IconButton>
-    </Tooltip>
-  );
-  const DarkIcon = () => (
-    <Tooltip
-      title="Toogle Dark Theme"
-      placement="left"
-      arrow
-      TransitionComponent={Zoom}
-    >
-      <IconButton onClick={() => handleThemeChange()}>
-        <SIcon className="fa-eclipse-alt" />
+        <SIcon className={icon} />
       </IconButton>
     </Tooltip>
   );
 
-  const renderToggle = () => (darkState ? <LightIcon /> : <DarkIcon />);
-
-  const onChangeSearch = (value) => debouncedSearch(value);
-  const debouncedSearch = debounce(function (value) {
-    filterProducts({ value });
-  }, 1000);
+  const renderToggle = () =>
+    darkState ? (
+      <ToggleIcon title="Toogle Light Theme" icon="fa-sun" />
+    ) : (
+      <ToggleIcon title="Toogle Dark Theme" icon="fa-eclipse-alt" />
+    );
 
   return (
     <Box
@@ -111,22 +96,37 @@ export const Navbar = ({
         </Button>
       </Box>
 
-      <Box className={classes.Center}>
-        <SearchBar
-          cancelOnEscape
-          onChange={onChangeSearch}
-          onRequestSearch={(value) => filterProducts({ value })}
-          onCancelSearch={() => filterProducts({ value: "" })}
-          placeholder="Search products, shop…"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          // onFocus={() => console.log("focus")}
-          // onBlur={() => console.log("Blur")}
-          inputProps={{ "aria-label": "search" }}
-        />
-      </Box>
+      {noSearch ? (
+        <div className={classes.grow}></div>
+      ) : (
+        <Box className={classes.Center}>
+          {/* <TextField
+              disabled
+              placeholder="Choose your location"
+              variant="outlined"
+              onClick={() => handleModal(<ShynnMap />)}
+              classes={{
+                root: classes.inputRoot,
+              }}
+              inputProps={{ style: { padding: "9px 14px" } }}
+            /> */}
+          <Paper className={classes.searchBar}>
+            <InputBase
+              className={classes.input}
+              placeholder="Enter Your Location"
+              inputProps={{ "aria-label": "search google maps" }}
+            />
+            <Divider className={classes.divider} orientation="vertical" />
+            <IconButton
+              color="primary"
+              className={classes.iconButton}
+              aria-label="directions"
+            >
+              <Directions />
+            </IconButton>
+          </Paper>
+        </Box>
+      )}
       <div className={classes.Right}>
         {renderToggle()}
         {auth.isAuthenticated ? (
@@ -177,7 +177,6 @@ const mapState = (state) => ({
 
 const mapDispatch = {
   logout,
-  filterProducts,
 };
 
 export default connect(mapState, mapDispatch)(Navbar);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Box } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { Swiper } from "components/User";
 import { Content } from "components/User/Content";
 import { connect } from "react-redux";
@@ -8,8 +8,12 @@ import {
   getProducts,
   sortByPrice,
   sortByAlphabet,
+  filterProducts,
 } from "redux/product/product.actions";
-import ShynnMap from "components/core/ShynnMap";
+// import ShynnMap from "components/core/ShynnMap";
+
+import SearchBar from "material-ui-search-bar";
+import { debounce } from "lodash";
 
 export const Home = ({
   shop,
@@ -17,10 +21,20 @@ export const Home = ({
   getProducts,
   sortByPrice,
   sortByAlphabet,
+  filterProducts,
 }) => {
   const [category, setCategory] = useState("all");
   const [categoryName, setCategoryName] = useState("All Products");
   const [filter, setFilter] = useState("");
+
+  // useEffect(() => {
+  //   const onSuccess = ({ coords }) => {
+  //     panTo({ lat: coords.latitude, lng: coords.longitude });
+  //   };
+  //   const onLocate = () => {
+  //     navigator.geolocation.getCurrentPosition(onSuccess, () => null);
+  //   };
+  // }, []);
 
   const memoizedGetProducts = useCallback(() => {
     getProducts(category);
@@ -29,15 +43,6 @@ export const Home = ({
   useEffect(() => {
     memoizedGetProducts();
   }, [memoizedGetProducts]);
-
-  // const sortProducts = () => {
-  //   let direction = filter.endsWith("asc") ? "asc" : "desc";
-  //   if (filter.startsWith("price")) {
-  //     sortByPrice({ direction });
-  //   } else {
-  //     sortByAlphabet({ direction });
-  //   }
-  // };
 
   const memoizedSortProducts = useCallback(() => {
     let direction = filter.endsWith("asc") ? "asc" : "desc";
@@ -57,19 +62,31 @@ export const Home = ({
     setCategoryName(name);
   };
 
+  const onChangeSearch = (value) => debouncedSearch(value);
+  const debouncedSearch = debounce(function (value) {
+    filterProducts({ value });
+  }, 1000);
+
   return (
     <React.Fragment>
-      {/* <Box style={{ padding: "0 0 32px 0" }}> */}
-      <Box>
+      <Container maxWidth="lg">
+        <SearchBar
+          cancelOnEscape
+          onChange={onChangeSearch}
+          onRequestSearch={(value) => filterProducts({ value })}
+          onCancelSearch={() => filterProducts({ value: "" })}
+          placeholder={"Search for foods, drinks or shop..."}
+          inputProps={{ "aria-label": "search" }}
+        />
         <Swiper categories={shop.categories} changeCategory={changeCategory} />
-      </Box>
+      </Container>
       <Content
         title={categoryName}
         products={products}
         filter={filter}
         setFilter={setFilter}
       />
-      <ShynnMap />
+      {/* <ShynnMap /> */}
     </React.Fragment>
   );
 };
@@ -79,6 +96,9 @@ const mapState = (state) => ({
   products: state.product.filteredProducts,
 });
 
-export default connect(mapState, { getProducts, sortByPrice, sortByAlphabet })(
-  Home
-);
+export default connect(mapState, {
+  getProducts,
+  sortByPrice,
+  sortByAlphabet,
+  filterProducts,
+})(Home);

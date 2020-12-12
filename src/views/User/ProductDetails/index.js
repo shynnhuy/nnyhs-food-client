@@ -28,7 +28,7 @@ import productApi from "api/productApi";
 
 const ProductDetails = ({ match, addItems }) => {
   const theme = useTheme();
-  const {id} = match.params;
+  const { id } = match.params;
   const [num, setNum] = useState(1);
   const [isDisable, setIsDisable] = useState(false);
   const [product, setProduct] = useState({});
@@ -38,7 +38,7 @@ const ProductDetails = ({ match, addItems }) => {
     const getProduct = async () => {
       setIsLoading(true);
       try {
-        const res = await productApi.getProducts({ id });
+        const res = await productApi.getProduct(id);
         setProduct(res.data);
         setIsLoading(false);
       } catch (error) {

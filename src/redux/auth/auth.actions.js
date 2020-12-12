@@ -17,6 +17,7 @@ import {
 } from "./auth.types";
 
 import { loadShop } from "redux/shop/shop.actions";
+import {LOADED_SHOP} from "../shop/shop.types";
 
 const checkAdmin = (roles = [], admin, dispatch) => {
   if (roles.map((role) => role._id).includes(admin)) {
@@ -52,12 +53,16 @@ export const loadUser = () => (dispatch, getState) => {
     .catch((err) => {
       dispatch(
         enqueueSnackbar({
-          message: err.response?.data.message || "Authentication Error",
+          message: err.response?.data.message || "You're not logged in.",
           status: "error",
         })
       );
       dispatch({
         type: AUTH_ERROR,
+      });
+      dispatch({
+          type: LOADED_SHOP,
+          payload: {}
       });
     });
 };

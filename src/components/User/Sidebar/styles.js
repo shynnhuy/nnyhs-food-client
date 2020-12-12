@@ -18,4 +18,10 @@ export default makeStyles((theme) => ({
     width: 64,
     height: 64,
   },
+  toggle: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 }));

@@ -50,7 +50,6 @@ const SidebarItem = ({
 
   if (isLink) {
     if (hasBadge) {
-      console.log(badge);
       return (
         <ListItem
           className={clsx(classes.item, className)}

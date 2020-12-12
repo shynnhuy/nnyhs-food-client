@@ -19,8 +19,8 @@ export const isExpired = (exp) => {
 
 export const setToken = (token) => {
   if (token) {
-    sessionStorage.setItem("token", JSON.stringify(token));
+    localStorage.setItem("token", JSON.stringify(token));
   } else {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
   }
 };

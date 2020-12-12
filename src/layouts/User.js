@@ -8,10 +8,12 @@ import {
   selectIsAdmin,
   selectIsAuthenticated,
   selectUserDetails,
+  selectIsShop,
 } from "redux/auth/auth.selectors";
 
 import { logout } from "redux/auth/auth.actions";
 import { selectCartItemsCount } from "redux/cart/cart.selectors";
+import Footer from "components/User/Footer";
 
 function UserLayout({ children, ...rest }) {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -32,7 +34,7 @@ function UserLayout({ children, ...rest }) {
   return (
     <Box>
       <CssBaseline />
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar toggleSidebar={toggleSidebar} noSearch={rest.noSearch} />
       <Sidebar
         open={openSidebar}
         toggleSidebar={toggleSidebar}
@@ -40,11 +42,17 @@ function UserLayout({ children, ...rest }) {
         {...rest}
       />
       {children}
+      <Footer />
     </Box>
   );
 }
 
-const UserRoute = ({ component: Component, auth, ...rest }) => {
+const UserRoute = ({
+  component: Component,
+  auth,
+  noSearch = false,
+  ...rest
+}) => {
   if (auth && !rest.isAuth) {
     return <Redirect to="/login" />;
   }
@@ -52,8 +60,8 @@ const UserRoute = ({ component: Component, auth, ...rest }) => {
     <Route
       {...rest}
       render={(props) => (
-        <UserLayout {...rest}>
-          <Component {...props} />
+        <UserLayout {...rest} noSearch={noSearch}>
+          <Component {...props} {...rest} />
         </UserLayout>
       )}
     />
@@ -63,6 +71,7 @@ const UserRoute = ({ component: Component, auth, ...rest }) => {
 const mapState = (state) => ({
   isAuth: selectIsAuthenticated(state),
   isAdmin: selectIsAdmin(state),
+  isShop: selectIsShop(state),
   user: selectUserDetails(state),
   cartCount: selectCartItemsCount(state),
 });

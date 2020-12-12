@@ -30,10 +30,10 @@ const App = () => {
   return (
     <Switch location={location}>
       {/* <ManagerRoute path="/" exact component={Dashboard} /> */}
-      <UserRoute path="/" exact component={Landing} />
+      <UserRoute path="/" exact noSearch component={Landing} />
       <UserRoute path="/home" component={Home} />
       <UserRoute path="/profile" auth component={Profile} />
-      <UserRoute path="/shop" auth component={Shop} />
+      <UserRoute path="/myshop" auth component={Shop} />
       <UserRoute path="/cart" component={Cart} />
       <UserRoute path="/products/:id" component={ProductDetails} />
       <AuthRoute path="/login" component={Login} />
@@ -53,6 +53,7 @@ const App = () => {
 };
 
 export default App;
+
 
 // const App = () => {
 //   const location = useLocation();
