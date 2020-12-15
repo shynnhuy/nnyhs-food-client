@@ -167,7 +167,11 @@ export const Navbar = ({
             <i className="fad fa-store"></i>
           </IconButton>
         )}
-        <IconButton {...bindTrigger(popupState)} {...bindHover(popupState)}>
+        <IconButton
+          {...bindTrigger(popupState)}
+          {...bindHover(popupState)}
+          component="span"
+        >
           <Badge badgeContent={cartCount} color="secondary" showZero>
             <i className="fad fa-shopping-cart"></i>
           </Badge>
@@ -219,8 +223,8 @@ const CartPreview = ({ classes, items, total, toCart }) => {
       <CardContent>
         <List>
           {items.length > 0 ? (
-            items.map((item) => (
-              <ListItem className={classes.previewItem} key={item._id}>
+            items.map((item, idx) => (
+              <ListItem className={classes.previewItem} key={idx}>
                 <ListItemText>
                   {item.name} x {item.quantity}
                 </ListItemText>
@@ -228,10 +232,13 @@ const CartPreview = ({ classes, items, total, toCart }) => {
               </ListItem>
             ))
           ) : (
-            <ListItem>
-              <ListItemText>No thing in your cart</ListItemText>
-
-              <NavLink to="/home">Go to shopping</NavLink>
+            <ListItem style={{ textAlign: "center" }}>
+              <ListItemText>
+                No thing in your cart
+                <div>
+                  <NavLink to="/home">Go to shopping</NavLink>
+                </div>
+              </ListItemText>
             </ListItem>
           )}
           <ListItem className={classes.previewItemBottom}>

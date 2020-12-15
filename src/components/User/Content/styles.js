@@ -21,6 +21,19 @@ export default makeStyles((theme) => ({
     height: "30px",
     borderRadius: "50%",
   },
+  Title: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  TitleRight: {
+    display: "flex",
+    justifyContent: "space-between",
+    [theme.breakpoints.down("sm")]: {
+      flexBasis: "100%"
+    }
+  },
   gridActive: {
     color: theme.palette.secondary.main,
   },

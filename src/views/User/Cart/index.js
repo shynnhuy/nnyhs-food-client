@@ -47,7 +47,7 @@ const Cart = ({
         return;
     }
   };
-  const handleModal = useModal();
+  const { handleModal } = useModal();
 
   return (
     <Container className={classes.container} maxWidth="lg">
@@ -77,6 +77,7 @@ const Cart = ({
               variant="outlined"
               className={classes.checkout}
               onClick={() => handleModal(<CheckOut />)}
+              disabled={cartItems.length === 0}
             >
               proceed to checkout
             </Button>

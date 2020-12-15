@@ -20,9 +20,11 @@ export const Content = ({ title, products, filter, setFilter }) => {
   const [grid, setGrid] = useState(true);
   return (
     <Box component={Container} className={classes.root}>
-      <div className="flex between">
-        <StyledTypography variant="h5">{title}</StyledTypography>
-        <div className="flex">
+      <div className={classes.Title}>
+        <StyledTypography variant="h5">
+          {title}
+        </StyledTypography>
+        <div className={classes.TitleRight}>
           <FormControl variant="outlined" className={classes.Filter}>
             <InputLabel id="sortLabel">Sort By</InputLabel>
             <Select

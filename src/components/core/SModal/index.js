@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3),
-    width: theme.breakpoints.values.sm,
+    width: theme.breakpoints.values.md,
     maxWidth: theme.breakpoints.values.md,
     [theme.breakpoints.down("sm")]: {
-      width: theme.breakpoints.values.sm - theme.spacing(28)
-    }
+      width: theme.breakpoints.values.sm - theme.spacing(28),
+    },
   },
 }));
 

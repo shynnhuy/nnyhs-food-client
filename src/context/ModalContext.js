@@ -16,7 +16,7 @@ let ModalProvider = ({ children }) => {
   };
 
   return (
-    <Provider value={{ handleModal }}>
+    <Provider value={{ handleModal, onClose }}>
       <Modal
         open={open}
         handleModal={handleModal}

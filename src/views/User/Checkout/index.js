@@ -32,7 +32,7 @@ const CheckOut = () => {
     );
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm">
       <Typography variant="h4" align="center">
         Check Out
       </Typography>

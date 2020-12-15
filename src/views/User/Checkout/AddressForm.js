@@ -10,11 +10,15 @@ import {
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import FormikField from "components/core/FormikField";
 import api from "Api";
+import { connect } from "react-redux";
+import useModal from "hooks/useModal";
 
-const AddressForm = ({ next }) => {
+const AddressForm = ({ next, user }) => {
   const [district, setDistrict] = useState([]);
   const [wards, setWards] = useState([]);
   const [selectDistrict, setSelectDistrict] = useState("");
+
+  const { onClose } = useModal();
 
   useEffect(() => {
     let isMounted = true;
@@ -71,7 +75,7 @@ const AddressForm = ({ next }) => {
           firstName: "",
           lastName: "",
           address: "",
-          email: "",
+          email: user?.email,
           district: selectDistrict,
           ward: "",
         }}
@@ -113,6 +117,7 @@ const AddressForm = ({ next }) => {
                   name="email"
                   label="E-Mail"
                   type="email"
+                  disabled
                 />
               </Grid>
               {district.length > 0 && (
@@ -161,7 +166,7 @@ const AddressForm = ({ next }) => {
             </Grid>
             <br />
             <Box display="flex" justifyContent="space-between">
-              <Button variant="outlined" color="secondary">
+              <Button variant="outlined" color="secondary" onClick={onClose}>
                 Close
               </Button>
               <Button
@@ -180,4 +185,8 @@ const AddressForm = ({ next }) => {
   );
 };
 
-export default AddressForm;
+const mapState = (state) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapState)(AddressForm);
