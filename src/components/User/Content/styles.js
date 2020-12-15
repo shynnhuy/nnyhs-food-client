@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
   },
   Filter: {
     width: theme.spacing(25),
+    marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(30),
     },
@@ -19,6 +20,9 @@ export default makeStyles((theme) => ({
     minWidth: "30px",
     height: "30px",
     borderRadius: "50%",
+  },
+  gridActive: {
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -65,4 +69,11 @@ export const StyledCardFooter = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const CardFull = styled.div`
+  cursor: pointer;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
 `;

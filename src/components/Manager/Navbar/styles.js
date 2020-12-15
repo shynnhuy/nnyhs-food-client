@@ -23,9 +23,10 @@ export default makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     display: "flex",
     justifyContent: "space-between",
+    padding: "0 13px",
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: 18,
   },
   hide: {
     display: "none",

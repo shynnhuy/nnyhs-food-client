@@ -33,6 +33,7 @@ export default (state = defaultState, action) => {
         action.payload.direction === "asc"
           ? sortAsc(state.products, "price")
           : sortDesc(state.products, "price");
+      newPriceState.products = sortedPriceArr;
       newPriceState.filteredProducts = sortedPriceArr;
       return newPriceState;
     case SORT_BY_ALPHABET:
@@ -41,6 +42,7 @@ export default (state = defaultState, action) => {
         action.payload.direction === "asc"
           ? sortAsc(state.products, "name")
           : sortDesc(state.products, "name");
+      newNameState.products = sortedNameArr;
       newNameState.filteredProducts = sortedNameArr;
       return newNameState;
     case FILTER_PRODUCTS:

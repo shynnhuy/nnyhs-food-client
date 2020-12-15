@@ -83,4 +83,19 @@ export default makeStyles((theme) => ({
     height: 28,
     margin: 4,
   },
+  popover: {
+    width: 300,
+    pointerEvents: "none",
+  },
+  preview: {
+    // maxWidth: 400,
+  },
+  previewItem: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  previewItemBottom: {
+    display: "flex",
+    flexDirection: "column",
+  },
 }));

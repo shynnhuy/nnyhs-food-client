@@ -31,7 +31,7 @@ const ManagerRoute = ({ isAuth, isAdmin, component: Component, ...rest }) => {
 const ManagerLayout = ({ children }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };

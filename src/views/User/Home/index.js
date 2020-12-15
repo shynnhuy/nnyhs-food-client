@@ -93,7 +93,7 @@ export const Home = ({
 
 const mapState = (state) => ({
   shop: state.shop,
-  products: state.product.filteredProducts,
+  products: state.product.products,
 });
 
 export default connect(mapState, {

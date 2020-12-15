@@ -14,31 +14,55 @@ import {
   Paper,
   Divider,
   InputBase,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Fade,
 } from "@material-ui/core";
 import useStyles from "./styles";
 // import SearchBar from "material-ui-search-bar";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "redux/auth/auth.actions";
 import { useThemeContext } from "context/ThemeContext";
 
 import SIcon from "components/core/SIcon";
-import { selectCartItemsCount } from "redux/cart/cart.selectors";
+import {
+  selectCartItems,
+  selectCartItemsCount,
+  selectCartTotal,
+} from "redux/cart/cart.selectors";
 
 import { DehazeTwoTone, Directions } from "@material-ui/icons";
+import { ShoppingCart as CartIc } from "react-feather";
 // import ShynnMap from "components/core/ShynnMap";
+import {
+  usePopupState,
+  bindTrigger,
+  bindHover,
+  bindPopover,
+} from "material-ui-popup-state/hooks";
+import Popover from "material-ui-popup-state/HoverPopover";
 
 export const Navbar = ({
   auth,
   shop,
   logout,
   cartCount,
+  cartItems,
+  cartTotal,
   toggleSidebar,
   noSearch,
 }) => {
   const classes = useStyles();
   const history = useHistory();
   const [profileMenu, setProfileMenu] = useState(null);
+  const popupState = usePopupState({
+    variant: "popover",
+    popupId: "demoPopover",
+  });
 
   const handleClick = (event) => setProfileMenu(event.currentTarget);
 
@@ -143,11 +167,31 @@ export const Navbar = ({
             <i className="fad fa-store"></i>
           </IconButton>
         )}
-        <IconButton onClick={toCart}>
+        <IconButton {...bindTrigger(popupState)} {...bindHover(popupState)}>
           <Badge badgeContent={cartCount} color="secondary" showZero>
             <i className="fad fa-shopping-cart"></i>
           </Badge>
         </IconButton>
+        <Popover
+          PaperProps={{ className: classes.popover }}
+          {...bindPopover(popupState)}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          TransitionComponent={Fade}
+        >
+          <CartPreview
+            classes={classes}
+            total={cartTotal}
+            items={cartItems}
+            toCart={toCart}
+          />
+        </Popover>
         <Menu
           id="simple-menu"
           anchorEl={profileMenu}
@@ -169,10 +213,51 @@ export const Navbar = ({
   );
 };
 
+const CartPreview = ({ classes, items, total, toCart }) => {
+  return (
+    <Card className={classes.preview}>
+      <CardContent>
+        <List>
+          {items.length > 0 ? (
+            items.map((item) => (
+              <ListItem className={classes.previewItem} key={item._id}>
+                <ListItemText>
+                  {item.name} x {item.quantity}
+                </ListItemText>
+                <Typography>{item.price * item.quantity}đ</Typography>
+              </ListItem>
+            ))
+          ) : (
+            <ListItem>
+              <ListItemText>No thing in your cart</ListItemText>
+
+              <NavLink to="/home">Go to shopping</NavLink>
+            </ListItem>
+          )}
+          <ListItem className={classes.previewItemBottom}>
+            <Typography variant="h5">Total: {total}đ</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={toCart}
+              startIcon={<CartIc />}
+            >
+              Go To Cart
+            </Button>
+          </ListItem>
+        </List>
+      </CardContent>
+    </Card>
+  );
+};
+
 const mapState = (state) => ({
   auth: state.auth,
   shop: state.shop,
   cartCount: selectCartItemsCount(state),
+  cartItems: selectCartItems(state),
+  cartTotal: selectCartTotal(state),
 });
 
 const mapDispatch = {
